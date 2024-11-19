@@ -1,21 +1,21 @@
 {
   "files": {
-    "main.css": "/ai-todo-app-fe/static/css/main.b386825b.css",
-    "main.js": "/ai-todo-app-fe/static/js/main.681c0208.js",
-    "static/media/fa-solid-900.ttf": "/ai-todo-app-fe/static/media/fa-solid-900.42c745469c29afbc4e98.ttf",
-    "static/media/fa-brands-400.ttf": "/ai-todo-app-fe/static/media/fa-brands-400.4e755efff9e2ad0cc4ce.ttf",
-    "static/media/fa-solid-900.woff2": "/ai-todo-app-fe/static/media/fa-solid-900.a4453cdb966b98ed8801.woff2",
-    "static/media/fa-brands-400.woff2": "/ai-todo-app-fe/static/media/fa-brands-400.265683c169acc4399fe4.woff2",
-    "static/media/fa-regular-400.ttf": "/ai-todo-app-fe/static/media/fa-regular-400.fca1ba8756e66eb24cc3.ttf",
-    "static/media/fa-regular-400.woff2": "/ai-todo-app-fe/static/media/fa-regular-400.1bb9d91b4e86ea5158e6.woff2",
-    "static/media/fa-v4compatibility.ttf": "/ai-todo-app-fe/static/media/fa-v4compatibility.c230767394a35143968f.ttf",
-    "static/media/fa-v4compatibility.woff2": "/ai-todo-app-fe/static/media/fa-v4compatibility.eac4dbb6d61d3a73befd.woff2",
-    "index.html": "/ai-todo-app-fe/index.html",
-    "main.b386825b.css.map": "/ai-todo-app-fe/static/css/main.b386825b.css.map",
-    "main.681c0208.js.map": "/ai-todo-app-fe/static/js/main.681c0208.js.map"
+    "main.css": "/static/css/main.92a15390.css",
+    "main.js": "/static/js/main.61e2f663.js",
+    "static/media/fa-solid-900.ttf": "/static/media/fa-solid-900.42c745469c29afbc4e98.ttf",
+    "static/media/fa-brands-400.ttf": "/static/media/fa-brands-400.4e755efff9e2ad0cc4ce.ttf",
+    "static/media/fa-solid-900.woff2": "/static/media/fa-solid-900.a4453cdb966b98ed8801.woff2",
+    "static/media/fa-brands-400.woff2": "/static/media/fa-brands-400.265683c169acc4399fe4.woff2",
+    "static/media/fa-regular-400.ttf": "/static/media/fa-regular-400.fca1ba8756e66eb24cc3.ttf",
+    "static/media/fa-regular-400.woff2": "/static/media/fa-regular-400.1bb9d91b4e86ea5158e6.woff2",
+    "static/media/fa-v4compatibility.ttf": "/static/media/fa-v4compatibility.c230767394a35143968f.ttf",
+    "static/media/fa-v4compatibility.woff2": "/static/media/fa-v4compatibility.eac4dbb6d61d3a73befd.woff2",
+    "index.html": "/index.html",
+    "main.92a15390.css.map": "/static/css/main.92a15390.css.map",
+    "main.61e2f663.js.map": "/static/js/main.61e2f663.js.map"
   },
   "entrypoints": [
-    "static/css/main.b386825b.css",
-    "static/js/main.681c0208.js"
+    "static/css/main.92a15390.css",
+    "static/js/main.61e2f663.js"
   ]
 }
