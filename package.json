@@ -1,6 +1,6 @@
 {
   "name": "react_todo-app-with-api",
-  "homepage": ".",
+  "homepage": "https://olekk17.github.io/ai-todo-app-fe",
   "version": "0.1.0",
   "keywords": [],
   "author": "Oleh Kolodii",
@@ -15,7 +15,7 @@
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.4",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^5.3.4",
+    "react-router-dom": "^6.28.0",
     "react-scripts": "5.0.1",
     "react-transition-group": "^4.4.5"
   },

@@ -1,6 +1,6 @@
 import { getToken, removeToken } from "./authToken";
 
-const BASE_URL = "http://localhost:5000";
+const BASE_URL = process.env.BASE_URL || "http://localhost:5000";
 
 type RequestMethod = "GET" | "POST" | "PATCH" | "DELETE";
 

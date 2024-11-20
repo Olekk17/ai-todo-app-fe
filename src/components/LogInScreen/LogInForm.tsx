@@ -2,12 +2,12 @@ import { useState } from "react";
 import { Footer } from "./Footer";
 import { notification } from "antd";
 import { signIn, signUp } from "../../api/user";
-import { useHistory } from "react-router-dom";
+import {  useNavigate} from "react-router-dom";
 
 export const LogInForm: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
 
@@ -15,7 +15,7 @@ export const LogInForm: React.FC = () => {
     try {
       setLoading(true);
       if (type === "login") {
-        await signIn(email, password, () => history.push("/todos"));
+        await signIn(email, password, () => navigate("/todos"));
       } else {
         await signUp(email, password);
         notification.success({
