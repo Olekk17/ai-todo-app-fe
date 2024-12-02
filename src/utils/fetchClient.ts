@@ -1,48 +1,47 @@
+import axios, { AxiosRequestConfig } from "axios";
 import { getToken, removeToken } from "./authToken";
 
-const BASE_URL = process.env.BASE_URL || "http://localhost:5001";
+const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:5001";
 
 type RequestMethod = "GET" | "POST" | "PATCH" | "DELETE";
 
-function request<T>(
+async function request<T>(
   url: string,
   method: RequestMethod = "GET",
   data: any = null
 ): Promise<T> {
-  const options: RequestInit = { method };
   const token = getToken();
+  const config: AxiosRequestConfig = {
+    method,
+    url: BASE_URL + url,
+    headers: {},
+  };
 
   if (data) {
-    options.body = JSON.stringify(data);
-    options.headers = {
-      "Content-Type": "application/json; charset=UTF-8",
-    };
+    config.data = data;
+    if (config?.headers) {
+      config.headers["Content-Type"] = "application/json; charset=UTF-8";
+    }
   }
 
-  if (token) {
-    options.headers = {
-      ...options.headers,
-      Authorization: `Bearer ${token}`,
-    };
+  if (token && config.headers) {
+    config.headers.Authorization = `Bearer ${token}`;
   }
 
-  return fetch(BASE_URL + url, options).then(async (response) => {
-    if (!response.ok) {
-      const message = await response.text();
-      if (response.status === 401) {
+  try {
+    const response = await axios(config);
+    return response.data;
+  } catch (error: any) {
+    if (error.response) {
+      if (error.response.status === 401) {
         removeToken();
         window.location.href = "/";
       }
-      throw new Error(message);
+      throw new Error(error.response.data);
+    } else {
+      throw new Error(error.message);
     }
-
-    const text = await response.text();
-    try {
-      return JSON.parse(text);
-    } catch {
-      return text;
-    }
-  });
+  }
 }
 
 export const client = {

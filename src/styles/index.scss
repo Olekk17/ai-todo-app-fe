@@ -21,10 +21,11 @@ body {
 }
 
 .black-button {
+  cursor: pointer;
   background-color: #000;
   border-radius: 10px;
   color: #fff;
-  padding: 5px;
+  padding: 20px 10px;
   transition: background-color 0.3s;
   font-weight: bold;
 
