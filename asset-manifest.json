@@ -1,21 +1,21 @@
 {
   "files": {
-    "main.css": "/ai-todo-app-fe/static/css/main.b386825b.css",
-    "main.js": "/ai-todo-app-fe/static/js/main.3eeff946.js",
-    "static/media/fa-solid-900.ttf": "/ai-todo-app-fe/static/media/fa-solid-900.42c745469c29afbc4e98.ttf",
-    "static/media/fa-brands-400.ttf": "/ai-todo-app-fe/static/media/fa-brands-400.4e755efff9e2ad0cc4ce.ttf",
-    "static/media/fa-solid-900.woff2": "/ai-todo-app-fe/static/media/fa-solid-900.a4453cdb966b98ed8801.woff2",
-    "static/media/fa-brands-400.woff2": "/ai-todo-app-fe/static/media/fa-brands-400.265683c169acc4399fe4.woff2",
-    "static/media/fa-regular-400.ttf": "/ai-todo-app-fe/static/media/fa-regular-400.fca1ba8756e66eb24cc3.ttf",
-    "static/media/fa-regular-400.woff2": "/ai-todo-app-fe/static/media/fa-regular-400.1bb9d91b4e86ea5158e6.woff2",
-    "static/media/fa-v4compatibility.ttf": "/ai-todo-app-fe/static/media/fa-v4compatibility.c230767394a35143968f.ttf",
-    "static/media/fa-v4compatibility.woff2": "/ai-todo-app-fe/static/media/fa-v4compatibility.eac4dbb6d61d3a73befd.woff2",
+    "main.css": "/ai-todo-app-fe/static/css/main.ed8ccf48.css",
+    "main.js": "/ai-todo-app-fe/static/js/main.60539d73.js",
+    "static/media/fa-solid-900.ttf": "/ai-todo-app-fe/static/media/fa-solid-900.ad1782c70927ebc5bc87.ttf",
+    "static/media/fa-brands-400.ttf": "/ai-todo-app-fe/static/media/fa-brands-400.26b80c8830bebf340211.ttf",
+    "static/media/fa-solid-900.woff2": "/ai-todo-app-fe/static/media/fa-solid-900.83a538a018a9e44b023a.woff2",
+    "static/media/fa-brands-400.woff2": "/ai-todo-app-fe/static/media/fa-brands-400.fdbb558523a380307689.woff2",
+    "static/media/fa-regular-400.ttf": "/ai-todo-app-fe/static/media/fa-regular-400.05fdd87be89f7f8f0a1e.ttf",
+    "static/media/fa-regular-400.woff2": "/ai-todo-app-fe/static/media/fa-regular-400.4f6a2dabee9c092d09b9.woff2",
+    "static/media/fa-v4compatibility.ttf": "/ai-todo-app-fe/static/media/fa-v4compatibility.fa86b3c85e77abbd2ebd.ttf",
+    "static/media/fa-v4compatibility.woff2": "/ai-todo-app-fe/static/media/fa-v4compatibility.c3ea317a0f10f201597f.woff2",
     "index.html": "/ai-todo-app-fe/index.html",
-    "main.b386825b.css.map": "/ai-todo-app-fe/static/css/main.b386825b.css.map",
-    "main.3eeff946.js.map": "/ai-todo-app-fe/static/js/main.3eeff946.js.map"
+    "main.ed8ccf48.css.map": "/ai-todo-app-fe/static/css/main.ed8ccf48.css.map",
+    "main.60539d73.js.map": "/ai-todo-app-fe/static/js/main.60539d73.js.map"
   },
   "entrypoints": [
-    "static/css/main.b386825b.css",
-    "static/js/main.3eeff946.js"
+    "static/css/main.ed8ccf48.css",
+    "static/js/main.60539d73.js"
   ]
 }
