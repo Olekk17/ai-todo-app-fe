@@ -2,6 +2,8 @@ import { memo, useState } from "react";
 import cn from "classnames";
 import { Todo } from "../../../types/Todo";
 import { Modal, notification } from "antd";
+import { AiTip } from "./AiTip/AiTip";
+import { EditOutlined } from "@ant-design/icons";
 
 type Props = {
   todo: Todo;
@@ -77,6 +79,15 @@ export const TodoItem: React.FC<Props> = memo(
         >
           {todo.title}
         </span>
+
+        <button
+          type="button"
+          className="todo__edit"
+          onClick={() => setIsEditing(true)}
+          disabled={isLoading}
+        >
+          <EditOutlined size={18}/>
+        </button>
 
         <button
           type="button"
@@ -187,6 +198,7 @@ export const TodoItem: React.FC<Props> = memo(
                   )}
                 </>
               )}
+              <AiTip id={todo.id}/>
             </div>
           </Modal>
         )}

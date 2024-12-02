@@ -36,6 +36,11 @@ body {
     background-color: #666;
     border-color: transparent;
   }
+
+  &:disabled {
+    background-color: #666;
+    border-color: transparent;
+  }
 }
 
 .modal-footer {

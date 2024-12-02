@@ -6,7 +6,8 @@ import { TodoList } from "../TodoScreen/TodoList";
 import { Footer } from "../TodoScreen/Footer";
 import { ErrorMessage } from "../ErrorMessage";
 import { TodoForm } from "../TodoScreen/TodoForm";
-import { Modal, notification } from "antd";
+import { Modal, notification, Spin } from "antd";
+import { useLastNTodosAnalysis } from "../../hooks/useLastNTodosAnalysis";
 
 export const TodosScreen: React.FC = () => {
   const [isCreationModalVisible, setIsCreationModalVisible] = useState(false);
@@ -107,23 +108,30 @@ export const TodosScreen: React.FC = () => {
           return false;
         }
 
-        if (data.completedAt && data.inProgressAt && data.inProgressAt > data.completedAt) {
+        if (
+          data.completedAt &&
+          data.inProgressAt &&
+          data.inProgressAt > data.completedAt
+        ) {
           notification.error({
-            message: "Completion date and time should be greater than the start date and time",
+            message:
+              "Completion date and time should be greater than the start date and time",
           });
           return false;
         }
 
         if (data.completedAt && data.completedAt > new Date()) {
           notification.error({
-            message: "Completion date and time should be less than the current date and time",
+            message:
+              "Completion date and time should be less than the current date and time",
           });
           return false;
         }
 
         if (data.inProgressAt && data.inProgressAt > new Date()) {
           notification.error({
-            message: "Start date and time should be less than the current date and time",
+            message:
+              "Start date and time should be less than the current date and time",
           });
           return false;
         }
@@ -152,6 +160,8 @@ export const TodosScreen: React.FC = () => {
     },
     [todos]
   );
+
+  const { handleAnalysis, loading: tipLoading, message } = useLastNTodosAnalysis(10);
 
   return (
     <div className="todoapp">
@@ -185,12 +195,14 @@ export const TodosScreen: React.FC = () => {
 
       <button
         type="button"
-        onClick={() => {}}
+        onClick={handleAnalysis}
         className="black-button"
-        disabled={todos.length === 0}
+        disabled={todos.length === 0 || tipLoading}
       >
-        AI ANALYZE
+        {tipLoading ? <Spin /> : "AI ANALYZE"}
       </button>
+
+      <p>{message}</p>
 
       <ErrorMessage message={errorMessage} onDelete={deleteErrorMessage} />
       <Modal

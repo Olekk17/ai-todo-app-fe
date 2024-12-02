@@ -44,8 +44,16 @@
   }
 
   &__remove {
-    position: absolute;
     right: 12px;
+  }
+
+  &__edit {
+    right: 45px;
+  }
+
+  &__remove, 
+  &__edit {
+    position: absolute;
     top: 0;
     bottom: 0;
 
@@ -69,7 +77,7 @@
     }
   }
 
-  &:hover &__remove {
+  &:hover &__remove, &:hover &__edit {
     opacity: 1;
   }
 
