@@ -8,8 +8,7 @@ type Props = {
   onDelete: (todoToDeleteId: number) => void;
   tempTodo: Partial<Todo> | null;
   loadingTodoIds: number[];
-  onCompletedChange: (todoId: number, completed: boolean) => Promise<void>;
-  onTitleChange: (todoId: number, title: string) => Promise<void>;
+  handlePatchTodo: (todoId: number, data: Partial<Todo>) => Promise<boolean>;
 };
 
 export const TodoList: React.FC<Props> = ({
@@ -17,10 +16,11 @@ export const TodoList: React.FC<Props> = ({
   onDelete,
   tempTodo,
   loadingTodoIds,
-  onCompletedChange,
-  onTitleChange,
+  handlePatchTodo
 }) => {
   const isCreating = tempTodo?.id === 0;
+
+  console.log(todos)
 
   return (
     <section className="todoapp__main">
@@ -32,8 +32,7 @@ export const TodoList: React.FC<Props> = ({
               todo={todo}
               onDelete={onDelete}
               loadingTodoIds={loadingTodoIds}
-              onCompletedChange={onCompletedChange}
-              onTitleChange={onTitleChange}
+              handlePatchTodo={handlePatchTodo}
             />
           </CSSTransition>
         ))}

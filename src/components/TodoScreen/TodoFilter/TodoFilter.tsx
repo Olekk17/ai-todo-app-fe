@@ -10,7 +10,6 @@ type Props = {
 export const TodoFilter: React.FC<Props> = memo(({ filter, onChange }) => (
   <nav className="filter">
     <a
-      href="#/"
       className={cn("filter__link", {
         selected: filter === FilterBy.All,
       })}
@@ -20,7 +19,15 @@ export const TodoFilter: React.FC<Props> = memo(({ filter, onChange }) => (
     </a>
 
     <a
-      href="#/active"
+      className={cn("filter__link", {
+        selected: filter === FilterBy.Created,
+      })}
+      onClick={() => onChange(FilterBy.Created)}
+    >
+      Created
+    </a>
+
+    <a
       className={cn("filter__link", {
         selected: filter === FilterBy.Active,
       })}
@@ -30,7 +37,6 @@ export const TodoFilter: React.FC<Props> = memo(({ filter, onChange }) => (
     </a>
 
     <a
-      href="#/completed"
       className={cn("filter__link", {
         selected: filter === FilterBy.Completed,
       })}

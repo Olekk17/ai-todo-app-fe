@@ -20,6 +20,37 @@ body {
   pointer-events: none;
 }
 
+.black-button {
+  background-color: #000;
+  border-radius: 10px;
+  color: #fff;
+  padding: 5px;
+  transition: background-color 0.3s;
+  font-weight: bold;
+
+  &:hover {
+    background-color: #333;
+  }
+
+  &:active {
+    background-color: #666;
+    border-color: transparent;
+  }
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
 @import "./todoapp";
 @import "./todo";
 @import "./filter";

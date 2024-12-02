@@ -2,5 +2,9 @@ export interface TodoData {
   title: string;
   userId?: number;
   id?: number;
-  completed: boolean;
+  description: string;
+  status: 'created' | 'inProgress' | 'completed';
+  inProgressAt?: Date;
+  completedAt?: Date;
+  estimatedTime: number;
 }

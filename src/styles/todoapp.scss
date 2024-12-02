@@ -1,5 +1,10 @@
 
 .todoapp {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 24px;
   font-weight: 300;
@@ -17,48 +22,16 @@
     font-size: 100px;
     font-weight: 100;
     text-align: center;
-    color: rgba(175, 47, 47, 0.15);
+    color: rgba(175, 175, 175, 0.35);
     -webkit-text-rendering: optimizeLegibility;
     -moz-text-rendering: optimizeLegibility;
     text-rendering: optimizeLegibility;
   }
 
-  &__header {
-    position: relative;
-  }
-
-  &__toggle-all {
-    position: absolute;
-
-    height: 100%;
-    width: 45px;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    font-size: 24px;
-    color: #e6e6e6;
-
-    border: 0;
-    background-color: transparent;
-    cursor: pointer;
-
-    &.active {
-      color: #737373;
-    }
-
-    &:before {
-      content: "❯";
-      transform: translateY(2px) rotate(90deg);
-      line-height: 0;
-    }
-  }
-
   &__new-todo {
     width: 100%;
-    padding: 16px 16px 16px 60px;
-
+    padding: 16px;
+    margin-top: 20px;
     font-size: 24px;
     line-height: 1.4em;
     font-family: inherit;

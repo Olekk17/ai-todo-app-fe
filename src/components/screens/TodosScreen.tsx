@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import cn from "classnames";
 import { Todo } from "../../types/Todo";
 import { FilterBy } from "../../enums/FilterBy";
 import { deleteTodo, getTodos, updateTodo } from "../../api/todos";
@@ -7,18 +6,19 @@ import { TodoList } from "../TodoScreen/TodoList";
 import { Footer } from "../TodoScreen/Footer";
 import { ErrorMessage } from "../ErrorMessage";
 import { TodoForm } from "../TodoScreen/TodoForm";
+import { Modal, notification } from "antd";
 
 export const TodosScreen: React.FC = () => {
+  const [isCreationModalVisible, setIsCreationModalVisible] = useState(false);
   const [todos, setTodos] = useState<Todo[]>([]);
   const [filterBy, setFilterBy] = useState(FilterBy.All);
   const [errorMessage, setErrorMessage] = useState("");
   const [tempTodo, setTempTodo] = useState<Partial<Todo> | null>(null);
   const [loadingTodoIds, setLoadingTodoIds] = useState<number[]>([]);
-  const [isEditDisabled, setIsEditDisabled] = useState(false);
 
-  const activeTodosNumber = todos.filter(({ completed }) => !completed).length;
-  const completedTodosNumber = todos.length - activeTodosNumber;
-  const areThereCompleted = completedTodosNumber > 0;
+  const activeTodosNumber = todos.filter(
+    ({ status }) => status !== "completed"
+  ).length;
 
   const findTodoIndexById = (todoId: number) => {
     return todos.findIndex(({ id }) => id === todoId);
@@ -50,53 +50,6 @@ export const TodosScreen: React.FC = () => {
     }
   }, []);
 
-  const handleCompletedChange = useCallback(
-    async (todoId: number, completed: boolean) => {
-      deleteErrorMessage();
-
-      try {
-        addLoadingTodoId(todoId);
-        const newTodo = await updateTodo(todoId, { completed });
-
-        setTodos((prevTodos) => {
-          const todosCopy = [...prevTodos];
-          const indexToDelete = findTodoIndexById(newTodo.id);
-
-          todosCopy.splice(indexToDelete, 1, newTodo);
-
-          return todosCopy;
-        });
-      } catch {
-        setErrorMessage("Unable to update a todo");
-      } finally {
-        removeLoadingTodoId(todoId);
-      }
-    },
-    [todos]
-  );
-
-  const handleToggleAll = useCallback(() => {
-    deleteErrorMessage();
-    setIsEditDisabled(true);
-
-    if (!activeTodosNumber) {
-      todos.forEach((todo) => {
-        handleCompletedChange(todo.id, !todo.completed);
-      });
-
-      setIsEditDisabled(false);
-
-      return;
-    }
-
-    todos.forEach((todo) => {
-      if (!todo.completed) {
-        handleCompletedChange(todo.id, !todo.completed);
-      }
-    });
-    setIsEditDisabled(false);
-  }, [todos]);
-
   const handleTodoDelete = useCallback(async (todoToDeleteId: number) => {
     deleteErrorMessage();
 
@@ -113,103 +66,147 @@ export const TodosScreen: React.FC = () => {
     }
   }, []);
 
-  const handleTitleEdit = useCallback(
-    async (todoId: number, title: string) => {
-      addLoadingTodoId(todoId);
-      deleteErrorMessage();
-
-      try {
-        if (title.length > 0) {
-          const newTodo = await updateTodo(todoId, { title });
-
-          setTodos((prevTodos) => {
-            const todosCopy = [...prevTodos];
-            const indexToDelete = findTodoIndexById(newTodo.id);
-
-            todosCopy.splice(indexToDelete, 1, newTodo);
-
-            return todosCopy;
-          });
-
-          return;
-        }
-
-        handleTodoDelete(todoId);
-      } catch {
-        setErrorMessage("Unable to update a todo title");
-      } finally {
-        removeLoadingTodoId(todoId);
-      }
-    },
-    [todos]
-  );
-
-  const handleClearCompleted = useCallback(() => {
-    const completedTodos = todos.filter(({ completed }) => completed);
-
-    completedTodos.forEach(({ id }) => handleTodoDelete(id));
-  }, [todos]);
-
   useEffect(() => {
     loadData();
   }, []);
 
   const filteredTodos = useMemo(() => {
     switch (filterBy) {
+      case FilterBy.Created:
+        return todos.filter(({ status }) => status === "created");
+
       case FilterBy.Active:
-        return todos.filter(({ completed }) => !completed);
+        return todos.filter(({ status }) => status === "inProgress");
 
       case FilterBy.Completed:
-        return todos.filter(({ completed }) => completed);
+        return todos.filter(({ status }) => status === "completed");
 
       default:
         return todos;
     }
   }, [todos, filterBy]);
 
+  const onCreated = useCallback(() => {
+    setIsCreationModalVisible(false);
+  }, []);
+
+  const handlePatchTodo = useCallback(
+    async (todoId: number, data: Partial<Todo>) => {
+      if (data.status !== "created") {
+        if (!data.inProgressAt) {
+          notification.error({
+            message: "Please provide a start date and time",
+          });
+          return false;
+        }
+
+        if (data.status === "completed" && !data.completedAt) {
+          notification.error({
+            message: "Please provide a completion date and time",
+          });
+          return false;
+        }
+
+        if (data.completedAt && data.inProgressAt && data.inProgressAt > data.completedAt) {
+          notification.error({
+            message: "Completion date and time should be greater than the start date and time",
+          });
+          return false;
+        }
+
+        if (data.completedAt && data.completedAt > new Date()) {
+          notification.error({
+            message: "Completion date and time should be less than the current date and time",
+          });
+          return false;
+        }
+
+        if (data.inProgressAt && data.inProgressAt > new Date()) {
+          notification.error({
+            message: "Start date and time should be less than the current date and time",
+          });
+          return false;
+        }
+      }
+      deleteErrorMessage();
+
+      try {
+        addLoadingTodoId(todoId);
+        const newTodo = await updateTodo(todoId, data);
+
+        setTodos((prevTodos) => {
+          const todosCopy = [...prevTodos];
+          const indexToDelete = findTodoIndexById(newTodo.id);
+
+          todosCopy.splice(indexToDelete, 1, newTodo);
+
+          return todosCopy;
+        });
+      } catch {
+        setErrorMessage("Unable to update a todo");
+        return false;
+      } finally {
+        removeLoadingTodoId(todoId);
+        return true;
+      }
+    },
+    [todos]
+  );
+
   return (
     <div className="todoapp">
       <h1 className="todoapp__title">todos</h1>
 
       <div className="todoapp__content">
-        <header className="todoapp__header">
-          <button
-            type="button"
-            className={cn("todoapp__toggle-all", {
-              active: activeTodosNumber > 0,
-            })}
-            onClick={handleToggleAll}
-            disabled={isEditDisabled}
-          />
-
-          <TodoForm
-            onError={setErrorMessage}
-            onChange={setTempTodo}
-            onCreate={createTodo}
-          />
-        </header>
-
         <TodoList
           todos={filteredTodos}
           onDelete={handleTodoDelete}
           tempTodo={tempTodo}
           loadingTodoIds={loadingTodoIds}
-          onCompletedChange={handleCompletedChange}
-          onTitleChange={handleTitleEdit}
+          handlePatchTodo={handlePatchTodo}
         />
 
         {todos && (
           <Footer
             filter={filterBy}
             onChange={setFilterBy}
-            onClear={handleClearCompleted}
-            areThereCompleted={areThereCompleted}
             activeTodosNumber={activeTodosNumber}
           />
         )}
       </div>
 
+      <button
+        type="button"
+        onClick={() => setIsCreationModalVisible(true)}
+        className="black-button"
+      >
+        CREATE NEW
+      </button>
+
+      <button
+        type="button"
+        onClick={() => {}}
+        className="black-button"
+        disabled={todos.length === 0}
+      >
+        AI ANALYZE
+      </button>
+
       <ErrorMessage message={errorMessage} onDelete={deleteErrorMessage} />
+      <Modal
+        title="Create a new todo"
+        open={isCreationModalVisible}
+        onCancel={() => setIsCreationModalVisible(false)}
+        footer={null}
+        centered
+      >
+        <TodoForm
+          onError={setErrorMessage}
+          onChange={setTempTodo}
+          onCreate={createTodo}
+          onCreated={onCreated}
+        />
+      </Modal>
     </div>
   );
 };
