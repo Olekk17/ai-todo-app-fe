@@ -214,6 +214,26 @@ export const TodosScreen: React.FC = () => {
     ).length,
   ];
 
+  const avgTaskDuration = useMemo(() => {
+    const completedTodos = todos.filter(({ status }) => status === "completed");
+
+    if (completedTodos.length === 0) {
+      return 0;
+    }
+
+    const totalDuration = completedTodos.reduce(
+      (acc, { inProgressAt, completedAt }) =>
+        acc +
+        (new Date(completedAt as string | Date).getTime() - new Date(inProgressAt as string | Date).getTime()) /
+          1000 /
+          60 /
+          60,
+      0
+    );
+
+    return (totalDuration / completedTodos.length).toFixed(2);
+  }, [todos]);
+
   const {
     handleAnalysis,
     loading: tipLoading,
@@ -260,6 +280,8 @@ export const TodosScreen: React.FC = () => {
       </button>
 
       <p>{message}</p>
+
+      {!!todos.length && <span>Average task duration: {avgTaskDuration} hours</span>}
 
       <BarChart
         width={width > 500 ? 600 : 300}
