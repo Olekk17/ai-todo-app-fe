@@ -11,6 +11,7 @@ import { useLastNTodosAnalysis } from "../../hooks/useLastNTodosAnalysis";
 import { BarChart } from "@mui/x-charts/BarChart";
 import { useDimensions } from "../../hooks/useDimensions";
 import { DownloadOutlined } from "@ant-design/icons";
+import { Link } from "react-router-dom";
 
 const xLabels = [
   "Created",
@@ -224,7 +225,8 @@ export const TodosScreen: React.FC = () => {
     const totalDuration = completedTodos.reduce(
       (acc, { inProgressAt, completedAt }) =>
         acc +
-        (new Date(completedAt as string | Date).getTime() - new Date(inProgressAt as string | Date).getTime()) /
+        (new Date(completedAt as string | Date).getTime() -
+          new Date(inProgressAt as string | Date).getTime()) /
           1000 /
           60 /
           60,
@@ -281,7 +283,9 @@ export const TodosScreen: React.FC = () => {
 
       <p>{message}</p>
 
-      {!!todos.length && <span>Average task duration: {avgTaskDuration} hours</span>}
+      {!!todos.length && (
+        <span>Average task duration: {avgTaskDuration} hours</span>
+      )}
 
       <BarChart
         width={width > 500 ? 600 : 300}
@@ -305,6 +309,16 @@ export const TodosScreen: React.FC = () => {
       >
         <span>Export tasks as .json</span> <DownloadOutlined />
       </div>
+
+      <button
+        className="black-button"
+        type="button"
+        onClick={() => {
+          localStorage.removeItem("token");
+        }}
+      >
+        <Link to={"/"}>LOG OUT</Link>
+      </button>
 
       <ErrorMessage message={errorMessage} onDelete={deleteErrorMessage} />
       <Modal

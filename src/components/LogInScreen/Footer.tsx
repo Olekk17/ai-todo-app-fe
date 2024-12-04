@@ -1,25 +1,32 @@
+import { Spin } from "antd";
+
 type Props = {
   handleSubmit: (type: "login" | "signup") => () => void;
-  disabled: boolean;
+  signUpLoading: boolean;
+  signInLoading: boolean;
 };
 
-export const Footer: React.FC<Props> = ({ disabled, handleSubmit }) => (
+export const Footer: React.FC<Props> = ({
+  signUpLoading,
+  handleSubmit,
+  signInLoading
+}) => (
   <footer className="todoapp__footer">
     <button
       type="button"
       className="todoapp__clear-completed"
-      disabled={disabled}
+      disabled={signUpLoading || signInLoading}
       onClick={handleSubmit("signup")}
     >
-      SIGN UP
+      {signUpLoading ? <Spin /> : "SIGN UP"}
     </button>
     <button
       type="submit"
       className="todoapp__clear-completed"
-      disabled={disabled}
+      disabled={signUpLoading || signInLoading}
       onClick={handleSubmit("login")}
     >
-      LOGIN
+      {signInLoading ? <Spin /> : "LOG IN"}
     </button>
   </footer>
 );

@@ -9,13 +9,16 @@ export const LogInForm: React.FC = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const [loading, setLoading] = useState(false);
+  const [signUpLoading, setSignUpLoading] = useState(false);
+  const [signInLoading, setSignInLoading] = useState(false);
 
   const handleFormSubmit = (type: "login" | "signup") => async () => {
     try {
-      setLoading(true);
       if (type === "signup") {
+        setSignUpLoading(true);
         await signUp(email, password);
+      } else {
+        setSignInLoading(true);
       }
       await signIn(email, password, () => navigate("/todos"));
     } catch (e: any) {
@@ -23,7 +26,8 @@ export const LogInForm: React.FC = () => {
         message: e.message,
       });
     } finally {
-      setLoading(false);
+      setSignUpLoading(false);
+      setSignInLoading(false);
     }
   };
 
@@ -43,7 +47,11 @@ export const LogInForm: React.FC = () => {
         value={password}
         onChange={(event) => setPassword(event.target.value)}
       />
-      <Footer disabled={loading} handleSubmit={handleFormSubmit} />
+      <Footer
+        signUpLoading={signUpLoading}
+        signInLoading={signInLoading}
+        handleSubmit={handleFormSubmit}
+      />
     </form>
   );
 };
