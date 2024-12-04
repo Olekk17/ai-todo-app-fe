@@ -8,6 +8,16 @@ import { ErrorMessage } from "../ErrorMessage";
 import { TodoForm } from "../TodoScreen/TodoForm";
 import { Modal, notification, Spin } from "antd";
 import { useLastNTodosAnalysis } from "../../hooks/useLastNTodosAnalysis";
+import { BarChart } from "@mui/x-charts/BarChart";
+import { useDimensions } from "../../hooks/useDimensions";
+
+const xLabels = [
+  "Created",
+  "In-progress",
+  "In-progress \n for too long",
+  "Completed \n in time",
+  "Completed \n too late",
+];
 
 export const TodosScreen: React.FC = () => {
   const [isCreationModalVisible, setIsCreationModalVisible] = useState(false);
@@ -16,6 +26,8 @@ export const TodosScreen: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [tempTodo, setTempTodo] = useState<Partial<Todo> | null>(null);
   const [loadingTodoIds, setLoadingTodoIds] = useState<number[]>([]);
+
+  const { width } = useDimensions();
 
   const activeTodosNumber = todos.filter(
     ({ status }) => status !== "completed"
@@ -161,7 +173,45 @@ export const TodosScreen: React.FC = () => {
     [todos]
   );
 
-  const { handleAnalysis, loading: tipLoading, message } = useLastNTodosAnalysis(10);
+  const uData = [
+    todos.filter(({ status }) => status === "created").length,
+    todos.filter(
+      ({ status, inProgressAt, estimatedTime }) =>
+        inProgressAt &&
+        status === "inProgress" &&
+        (Date.now() - new Date(inProgressAt).getTime()) / 1000 / 60 / 60 <=
+          estimatedTime
+    ).length,
+    todos.filter(
+      ({ status, inProgressAt, estimatedTime }) =>
+        inProgressAt &&
+        status === "inProgress" &&
+        (Date.now() - new Date(inProgressAt).getTime()) / 1000 / 60 / 60 >
+          estimatedTime
+    ).length,
+    todos.filter(
+      ({ status, completedAt, estimatedTime, inProgressAt }) =>
+        completedAt &&
+        inProgressAt &&
+        status === "completed" &&
+        (new Date(completedAt).getTime() - new Date(inProgressAt).getTime()) / 1000 / 60 / 60 <=
+          estimatedTime
+    ).length,
+    todos.filter(
+      ({ status, completedAt, estimatedTime, inProgressAt }) =>
+        completedAt &&
+        inProgressAt &&
+        status === "completed" &&
+        (new Date(completedAt).getTime() - new Date(inProgressAt).getTime()) / 1000 / 60 / 60 >
+          estimatedTime
+    ).length,
+  ];
+
+  const {
+    handleAnalysis,
+    loading: tipLoading,
+    message,
+  } = useLastNTodosAnalysis(10);
 
   return (
     <div className="todoapp">
@@ -203,6 +253,13 @@ export const TodosScreen: React.FC = () => {
       </button>
 
       <p>{message}</p>
+
+      <BarChart
+        width={width > 500 ? 600 : 300}
+        height={300}
+        series={[{ data: uData, label: "Tasks", type: "bar" }]}
+        xAxis={[{ scaleType: "band", data: xLabels }]}
+      />
 
       <ErrorMessage message={errorMessage} onDelete={deleteErrorMessage} />
       <Modal

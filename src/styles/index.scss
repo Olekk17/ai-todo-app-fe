@@ -57,6 +57,10 @@ body {
   width: 100%;
 }
 
+.MuiChartsAxis-tickLabel {
+  z-index: 10;
+}
+
 @import "./todoapp";
 @import "./todo";
 @import "./filter";
