@@ -10,6 +10,7 @@ import { Modal, notification, Spin } from "antd";
 import { useLastNTodosAnalysis } from "../../hooks/useLastNTodosAnalysis";
 import { BarChart } from "@mui/x-charts/BarChart";
 import { useDimensions } from "../../hooks/useDimensions";
+import { DownloadOutlined } from "@ant-design/icons";
 
 const xLabels = [
   "Created",
@@ -194,7 +195,10 @@ export const TodosScreen: React.FC = () => {
         completedAt &&
         inProgressAt &&
         status === "completed" &&
-        (new Date(completedAt).getTime() - new Date(inProgressAt).getTime()) / 1000 / 60 / 60 <=
+        (new Date(completedAt).getTime() - new Date(inProgressAt).getTime()) /
+          1000 /
+          60 /
+          60 <=
           estimatedTime
     ).length,
     todos.filter(
@@ -202,7 +206,10 @@ export const TodosScreen: React.FC = () => {
         completedAt &&
         inProgressAt &&
         status === "completed" &&
-        (new Date(completedAt).getTime() - new Date(inProgressAt).getTime()) / 1000 / 60 / 60 >
+        (new Date(completedAt).getTime() - new Date(inProgressAt).getTime()) /
+          1000 /
+          60 /
+          60 >
           estimatedTime
     ).length,
   ];
@@ -260,6 +267,22 @@ export const TodosScreen: React.FC = () => {
         series={[{ data: uData, label: "Tasks", type: "bar" }]}
         xAxis={[{ scaleType: "band", data: xLabels }]}
       />
+
+      <div
+        onClick={() => {
+          const element = document.createElement("a");
+          const file = new Blob([JSON.stringify(todos, null, 2)], {
+            type: "application/json",
+          });
+          element.href = URL.createObjectURL(file);
+          element.download = "todos.json";
+          document.body.appendChild(element);
+          element.click();
+        }}
+        style={{ cursor: "pointer" }}
+      >
+        <span>Export tasks as .json</span> <DownloadOutlined />
+      </div>
 
       <ErrorMessage message={errorMessage} onDelete={deleteErrorMessage} />
       <Modal
