@@ -28,7 +28,7 @@ export const TodoItem: React.FC<Props> = memo(
     const isLoading = loadingTodoIds.includes(todo.id);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
-    const handleEdit = async (oldTitle: string) => {
+    const handleEdit = (oldTitle: string) => {
       setIsEditing(true);
       setNewTitle(oldTitle);
       setDescription(todo.description);
@@ -83,7 +83,7 @@ export const TodoItem: React.FC<Props> = memo(
         <button
           type="button"
           className="todo__edit"
-          onClick={() => setIsEditing(true)}
+          onClick={() => handleEdit(todo.title)}
           disabled={isLoading}
         >
           <EditOutlined size={18}/>
